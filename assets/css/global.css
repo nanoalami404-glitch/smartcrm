@@ -1,0 +1,196 @@
+/* Global "Elite" Design System */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    /* SaaS standard */
+    overflow: hidden;
+    /* App-like feel */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+}
+
+/* Utilities */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-2 {
+    gap: var(--space-2);
+}
+
+.gap-4 {
+    gap: var(--space-4);
+}
+
+.w-full {
+    width: 100%;
+}
+
+.text-muted {
+    color: var(--text-secondary);
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+.text-sm {
+    font-size: 13px;
+}
+
+/* Components: Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    font-size: 13px;
+    height: 32px;
+}
+
+.btn-primary {
+    background-color: var(--primary-600);
+    color: white;
+    box-shadow: 0 1px 2px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-700);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: var(--border-subtle);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-tertiary);
+    background-color: var(--slate-50);
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    background-color: var(--slate-100);
+    color: var(--text-main);
+}
+
+/* Components: Cards (Soft & Clean) */
+.card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
+    transition: box-shadow 0.2s;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Components: Inputs */
+.input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-size: 13px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+/* Page Typography */
+.page-header {
+    margin-bottom: var(--space-6);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: var(--space-2) 0;
+    letter-spacing: -0.03em;
+}
+
+.trend {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.trend.up {
+    color: var(--success);
+}
+
+.trend.down {
+    color: var(--danger);
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SmartCRM</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dashboard Specifics */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .kpi-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .kpi-change {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .kpi-change.up {
+            color: var(--success);
+        }
+
+        .kpi-change.down {
+            color: var(--danger);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--slate-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .chart-placeholder {
+            background: var(--slate-50);
+            border-radius: var(--radius-md);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 2px dashed var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="text-primary font-bold text-lg">SmartCRM</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="contacts.html" class="nav-item">
+                    <span>👥</span> Contacts
+                </a>
+                <a href="pipeline.html" class="nav-item">
+                    <span>💰</span> Pipeline
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <span>📈</span> Analytics
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span>⚙️</span> Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info flex items-center gap-2">
+                    <div class="user-avatar">JD</div>
+                    <div class="flex-col">
+                        <span class="font-bold text-sm">John Doe</span>
+                        <span class="text-xs text-muted">john@example.com</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="flex items-center">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title">Dashboard</h1>
+                </div>
+                <div class="user-menu">
+                    <button class="btn btn-outline text-sm">Feedback</button>
+                    <a href="../login.html" class="text-sm text-danger font-bold">Logout</a>
+                </div>
+            </header>
+
+            <main class="p-6">
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-title">Total Contacts</div>
+                        <div class="kpi-value" id="kpiContacts">0</div>
+                        <div class="kpi-change up"><span>↑</span> 12% vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Deals in Pipeline</div>
+                        <div class="kpi-value" id="kpiDeals">0</div>
+                        <div class="kpi-change up"><span>↑</span> 5 new this week</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Pipeline Value</div>
+                        <div class="kpi-value" id="kpiValue">$0</div>
+                        <div class="kpi-change down"><span>↓</span> 2% vs last month</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-title">Conversion Rate</div>
+                        <div class="kpi-value">18%</div>
+                        <div class="kpi-change up"><span>↑</span> 4% vs last month</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Main Chart Area -->
+                    <div class="card bg-white p-6 shadow-md rounded-lg">
+                        <div class="card-header">
+                            <h3 class="card-title">Revenue Forecast</h3>
+                            <select class="input" style="width: auto; padding: 0.25rem;">
+                                <option>This Month</option>
+                                <option>This Quarter</option>
+                            </select>
+                        </div>
+                        <div class="chart-placeholder">
+                            Charts will be rendered here (Analytics)
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="card bg-white p-6 shadow-md rounded-lg">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                        </div>
+                        <ul class="activity-list" id="activityList">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../assets/js/store.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

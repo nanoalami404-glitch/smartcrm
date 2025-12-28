@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts - SmartCRM</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .contacts-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .contacts-table-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+        }
+
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .contacts-table th,
+        .contacts-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contacts-table th {
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--slate-50);
+            font-size: 0.875rem;
+        }
+
+        .contacts-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .contacts-table tr:hover {
+            background-color: var(--slate-50);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-lead {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .status-customer {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-prospect {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="text-primary font-bold text-lg">SmartCRM</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="contacts.html" class="nav-item active">
+                    <span>👥</span> Contacts
+                </a>
+                <a href="pipeline.html" class="nav-item">
+                    <span>💰</span> Pipeline
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <span>📈</span> Analytics
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span>⚙️</span> Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info flex items-center gap-2">
+                    <div class="user-avatar">JD</div>
+                    <div class="flex-col">
+                        <span class="font-bold text-sm">John Doe</span>
+                        <span class="text-xs text-muted">john@example.com</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="flex items-center">
+                    <button class="menu-toggle" id="menuToggle">☰</button>
+                    <h1 class="page-title">Contacts</h1>
+                </div>
+                <div class="user-menu">
+                    <button class="btn btn-outline text-sm">Feedback</button>
+                    <a href="../login.html" class="text-sm text-danger font-bold">Logout</a>
+                </div>
+            </header>
+
+            <main class="p-6">
+                <div class="contacts-toolbar">
+                    <input type="text" class="input search-bar" placeholder="Search contacts...">
+                    <button class="btn btn-primary" id="addContactBtn">+ New Contact</button>
+                </div>
+
+                <div class="contacts-table-wrapper shadow-md">
+                    <table class="contacts-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Company</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contactsList">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Contact Modal -->
+    <div class="modal" id="addContactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="font-bold text-lg">Add New Contact</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="addContactForm">
+                <div class="form-group">
+                    <label for="cName">Full Name</label>
+                    <input type="text" id="cName" class="input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cEmail">Email</label>
+                    <input type="email" id="cEmail" class="input" required>
+                </div>
+                <div class="form-group">
+                    <label for="cCompany">Company</label>
+                    <input type="text" id="cCompany" class="input">
+                </div>
+                <div class="form-group">
+                    <label for="cStatus">Status</label>
+                    <select id="cStatus" class="input">
+                        <option value="Lead">Lead</option>
+                        <option value="Prospect">Prospect</option>
+                        <option value="Customer">Customer</option>
+                    </select>
+                </div>
+                <div class="flex justify-between mt-4">
+                    <button type="button" class="btn btn-outline" id="cancelModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Contact</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/store.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

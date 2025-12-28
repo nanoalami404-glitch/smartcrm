@@ -1,0 +1,16 @@
+{
+  "name": "smart-crm-elite",
+  "version": "2.0.0",
+  "description": "A Pro-Grade Smart CRM built with Vanilla JS and Elite CSS.",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "crm",
+    "saas",
+    "vanilla-js"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
